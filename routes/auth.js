@@ -31,7 +31,7 @@ router.post('/register', async(req, res) => {
         password: hasPassword,
     })
 
-
+    //try to add user to db
     try {
         const savedUser = await user.save();
         res.send({ user: user._id });
