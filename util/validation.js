@@ -21,5 +21,14 @@ const loginValidation = data => {
     return schema.validate(data)
 }
 
+const tweetValidation = data => {
+    const schema = Joi.object({
+    
+    })
+
+    return schema.validate(data)
+}
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.tweetValidation = tweetValidation;

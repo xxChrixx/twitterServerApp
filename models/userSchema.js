@@ -2,6 +2,17 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const tweetSchema = new Schema({
+
+    body: {type: String, required: true},
+    like:{type: Number, default: 0},
+    retweet:{type: Number,default: 0},
+    share:{type: Number, default: 0},
+    tags:{type: Array,default:[]},
+    replayId:{type: String,default:""},
+    
+    
+    });
 
 const UserSchema = new Schema({
 
@@ -16,7 +27,8 @@ const UserSchema = new Schema({
     following: { type: Array },
     followers: { type: Array },
     notifications: { type: Array },
-    tweets: { type: Array }
+    tweets: [tweetSchema],
+    tweetsLikes:{type: Array}
 
 })
 

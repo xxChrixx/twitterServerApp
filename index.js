@@ -8,7 +8,9 @@ require('dotenv/config')
 //routes
 const postRoute = require('./routes/post');
 const authRoute = require('./routes/auth');
-const privateRoot = require('./routes/private/test');
+const tweetRoute = require('./routes/private/tweet');
+const usersRoute = require('./routes/private/following');
+const profileRoute = require('./routes/private/profile')
 
 app.use(express.json());
 
@@ -19,7 +21,9 @@ mongoose.connect(uri, { useNewUrlParser: true }, () => console.log("connect to d
 
 app.use('/posts', postRoute);
 app.use('/api/user', authRoute);
-app.use('/api/private', privateRoot);
+app.use('/api/private/tweet', tweetRoute);
+app.use('/api/private/user', usersRoute);
+app.use('/api/private/profile', usersRoute);
 
 app.get("/", (req, res) => {});
 
