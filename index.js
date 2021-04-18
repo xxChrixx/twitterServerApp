@@ -10,7 +10,8 @@ const postRoute = require('./routes/post');
 const authRoute = require('./routes/auth');
 const tweetRoute = require('./routes/private/tweet');
 const usersRoute = require('./routes/private/following');
-const profileRoute = require('./routes/private/profile')
+const profileRoute = require('./routes/private/profile');
+const imageRoute = require('./routes/private/imagesRoute');
 
 app.use(express.json());
 
@@ -23,7 +24,8 @@ app.use('/posts', postRoute);
 app.use('/api/user', authRoute);
 app.use('/api/private/tweet', tweetRoute);
 app.use('/api/private/user', usersRoute);
-app.use('/api/private/profile', usersRoute);
+app.use('/api/private/profile', profileRoute);
+app.use('/api/private/images', imageRoute);
 
 app.get("/", (req, res) => {});
 
