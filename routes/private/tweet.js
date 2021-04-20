@@ -5,6 +5,7 @@ const ObjectId = require('mongoose').Types.ObjectId;
 //multer for images
 const multer = require("multer");
 
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads/");
@@ -27,17 +28,19 @@ const upload = multer({
 
 
 
-router.post('/add', verify,upload.single("tweetImage"), async (req, res) => {
-    const userId = req.body.userId;
-    const tweet = {body: req.body.tweet};
-    if(req.file){
-        tweet.image = req.file.path;
-    }
+router.post('/add',upload.single("tweetImage"), async (req, res) => {
     
+    const userId = req.body.userId;
+    const tweet =  JSON.parse(req.body.tweet);
+  
+     if(req.file){
+       tweet.image = req.file.path;
+   }
    
-    const user = await User.findOne({ _id: new ObjectId(userId) })
 
-    user.tweets.push(tweet) 
+   const user = await User.findOne({ _id: new ObjectId(userId) })
+   if(!user) return res.status(400).send(user);
+   user.tweets.push(tweet) 
 
     try {
         const savedUser = await user.save();

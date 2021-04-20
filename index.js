@@ -22,7 +22,7 @@ app.use(cors())
 const uri = process.env.DB_CONNECTION;
 mongoose.connect(uri, { useNewUrlParser: true }, () => console.log("connect to db"));
 
-app.use("/uploads", express.static('uploads'))
+app.use("/api/uploads", express.static('uploads'))
 app.use('/posts', postRoute);
 app.use('/api/user', authRoute);
 app.use('/api/private/tweet', tweetRoute);
