@@ -14,12 +14,13 @@ router.get("/all/:id", async (req, res) => {
     const followingList = user.following;
   
     const users = await User.find({ _id: { $in: followingList } });
-    users.push(user);
+   // users.push(user);
   
     users.forEach((following) => {
       const tweetList = following.tweets.map((tweet) => {
         const copyTweet = tweet;
         profile = {
+          _id: following._id,
           username: following.username,
           loveTag: following.loveTag,
           profileImage: following.profileImage,

@@ -3,22 +3,31 @@ const verify = require("../verifyToken");
 const User = require("../../models/userSchema");
 const ObjectId = require("mongoose").Types.ObjectId;
 
-router.post("/follow", verify, async (req, res) => {
+router.post("/follow", verify,async (req, res) => {
+
   const userId = req.body.userId;
   const followId = req.body.followId;
 
+ //if (userId === followId) return res.status(400).send('non puoi seguire te stesso')
   const user = await User.findOne({ _id: new ObjectId(userId) });
-  const followUser = await User.findOne({ _id: new ObjectId(followId) });
   //da controllare se è gia presente
   if (!user.following.includes(followId)) {
     user.following.push(followId);
   }
+  try {
+    user.save();
+  } catch (err) {
+    res.status(400).send(err);
+  }
+  const followUser = await User.findOne({ _id: new ObjectId(followId) });
+  //da controllare se è gia presente
+ 
   if (!followUser.following.includes(userId)) {
     followUser.followers.push(userId);
   }
 
   try {
-    user.save();
+   
     followUser.save();
     res.send("follow");
   } catch (err) {

@@ -11,6 +11,7 @@ const tweetSchema = new Schema({
     tags: { type: Array, default: [] },
     replayId: { type: String, default: "" },
     image: { type: String, default: "" },
+    banner: { type: String, default: "" },
     date: { type: Date, default: Date.now() },
 
 });

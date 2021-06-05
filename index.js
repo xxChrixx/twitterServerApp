@@ -15,6 +15,7 @@ const profileRoute = require('./routes/private/profile');
 const imageRoute = require('./routes/private/imagesRoute');
 const homeRoute = require('./routes/private/homePage')
 
+
 app.use(express.json());
 app.use(cors())
 
