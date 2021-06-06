@@ -4,6 +4,69 @@ const User = require("../../models/userSchema");
 const bcrypt = require('bcryptjs')
 const ObjectId = require("mongoose").Types.ObjectId;
 
+//multer for images
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "./uploads/");
+    },
+    filename: (req, file, cb) => {
+      cb(null, Date.now() + file.originalname);
+    },
+  });
+  const upload = multer({
+    storage: storage,
+    limits: { fileSize: 1024 * 1024 * 5 },
+    fileFilter(req, file, cb) {
+      if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+        cb(new Error("Please upload an image."));
+      }
+      cb(undefined, true);
+    },
+  });
+
+
+  
+router.post('/update/banner',verify,upload.single("bannerImage"),async (req, res) => {
+    
+    const userId = req.body.userId;
+    const user = await User.findOne({ _id: new ObjectId(userId) })
+   if(!user) return res.status(400).send(user);
+ 
+     if(req.file){
+        user.banner = req.file.path;
+     }
+   
+
+    try {
+        const savedUser = await user.save();
+        res.send({ user: user._id });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+
+})
+  
+router.post('/update/avatar',verify,upload.single("avatarImage"), async (req, res) => {
+    
+    const userId = req.body.userId;
+    const user = await User.findOne({ _id: new ObjectId(userId) })
+   if(!user) return res.status(400).send(user);
+    
+     if(req.file){
+        user.profileImage = req.file.path;
+     }
+   
+
+    try {
+        const savedUser = await user.save();
+        res.send({ user: user._id });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+
+})
 router.post('/update/bio', verify,async (req, res)=>{
     const bio = req.body.bio;
     const userId = req.body.userId;
@@ -131,7 +194,8 @@ router.get('/allInfo/:id', verify,async(req,res) =>{
             followingNumber: user.following.length,
             bio: user.bio,
             tweets: sortedTweet,
-            profileImage: user.profileImage
+            profileImage: user.profileImage,
+            banner: user.banner,
         }
         res.send(info)
     }catch (err){
@@ -141,7 +205,7 @@ router.get('/allInfo/:id', verify,async(req,res) =>{
 })
 
 router.post('/login', verify,async(req, res) => {
-    console.log(req.body.id );
+   
     const user = await User.findOne({ _id: new ObjectId(req.body.id )})
     //create token
   
@@ -149,6 +213,7 @@ router.post('/login', verify,async(req, res) => {
 
 
 })
+
 
 
 

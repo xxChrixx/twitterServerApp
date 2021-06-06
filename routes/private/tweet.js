@@ -52,6 +52,7 @@ router.post('/add',upload.single("tweetImage"), async (req, res) => {
 })
 
 router.post('/like',verify, async (req, res)=>{
+
 const userId = req.body.userId;
 const tweetId = req.body.tweetId;
 const userTweetId = req.body.userTweetId;
@@ -65,26 +66,36 @@ const userTweet = await User.findOne({_id: new ObjectId(userTweetId)})
 //check if there is a same like user
 
 const findInLikeList = user.tweetsLikes.find(tweetid => tweetId === tweetid )
-const index = userTweet.tweets.map((tweet,index) => {if(tweet._id == tweetId){ return index}})[0]
+
+
+const match = element => element._id == tweetId;
+
+const index = userTweet.tweets.findIndex(match)
 
 if(!findInLikeList){
+
     //increment like in the tweet
     if (index === undefined) {
-        res.status(400).send('tweet not found')
+   
+      return  res.status(400).send('tweet not found')
     } else{
+      
         userTweet.tweets[index].like += 1;
 
     }
   
 }else{
     //remove like in tweet
+    console.log('remove like');
    if (index === undefined) {
-       res.status(400).send('tweet not found')
+    
+    return  res.status(400).send('tweet not found')
    } else{
+
        userTweet.tweets[index].like -= 1;
    }
 }
-
+console.log('save all');
 try{
     await userTweet.save();
 

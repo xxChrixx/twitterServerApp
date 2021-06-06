@@ -7,7 +7,7 @@ router.post("/follow", verify,async (req, res) => {
 
   const userId = req.body.userId;
   const followId = req.body.followId;
-
+  
  //if (userId === followId) return res.status(400).send('non puoi seguire te stesso')
   const user = await User.findOne({ _id: new ObjectId(userId) });
   //da controllare se è gia presente

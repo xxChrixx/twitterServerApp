@@ -32,7 +32,7 @@ app.use('/api/private/profile', profileRoute);
 app.use('/api/private/images', imageRoute);
 app.use('/api/private/home', homeRoute);
 
-app.get("/", (req, res) => {});
+app.get("/", (req, res) => { res.send('app online') });
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

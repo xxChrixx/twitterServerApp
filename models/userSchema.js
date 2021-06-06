@@ -26,6 +26,7 @@ const UserSchema = new Schema({
     bornDate: { type: Date, requred: false },
     bio: { type: String, default: "" },
     profileImage: { type: String, default: "" },
+    banner: { type: String, default: "" },
     following: { type: Array },
     followers: { type: Array },
     notifications: { type: Array },
